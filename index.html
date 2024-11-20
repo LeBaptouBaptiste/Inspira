@@ -1,51 +1,68 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page de Citations</title>
+    <title>Inspira</title>
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Citations" />
     <link rel="manifest" href="/site.webmanifest" />
+
     <!-- Lien vers Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="manifest" href="site.webmanifest">
 </head>
+
 <body class="bg-light">
+
     <div class="container my-5">
-        <h1 class="text-center mb-4">Citations Inspirantes</h1>
-        <div id="quotes" class="row g-4"></div>
+        <!-- Titre de la page -->
+        <h1 class="text-center mb-4 text-primary">Inspira</h1>
+
+        <!-- Section des citations -->
+        <div id="quotes" class="row g-4">
+            <!-- Les citations seront injectées ici -->
+        </div>
+
+        <!-- Formulaire d'ajout de citation -->
+        <div class="mt-5">
+            <h4 class="text-center mb-4 text-muted">Ajouter une nouvelle citation</h4>
+            <form id="addQuoteForm">
+                <div class="mb-3">
+                    <label for="quoteText" class="form-label">Citation</label>
+                    <textarea id="quoteText" class="form-control" rows="3" required placeholder="Entrez votre citation ici"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="authorId" class="form-label">Auteur (ID)</label>
+                    <input type="number" id="authorId" class="form-control" required placeholder="ID de l'auteur">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Ajouter la citation</button>
+            </form>
+        </div>
     </div>
-    <form id="addQuoteForm">
-        <div class="mb-3">
-            <label for="quoteText" class="form-label">Citation</label>
-            <textarea id="quoteText" class="form-control" rows="3" required></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="authorId" class="form-label">Auteur (ID)</label>
-            <input type="number" id="authorId" class="form-control" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Ajouter la citation</button>
-    </form>
+
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker
-                .register('/service-worker.js')
-                .then((registration) => {
-                    console.log('Service Worker enregistré avec succès:', registration.scope);
-                })
-                .catch((error) => {
-                    console.error('Échec de l’enregistrement du Service Worker:', error);
-                });
+                    .register('/service-worker.js')
+                    .then((registration) => {
+                        console.log('Service Worker enregistré avec succès:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.error('Échec de l’enregistrement du Service Worker:', error);
+                    });
             });
         }
     </script>
-    <!-- Script Bootstrap -->
+
+    <!-- Scripts Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="main.js"></script>
 </body>
+
 </html>

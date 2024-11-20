@@ -1,7 +1,8 @@
 {
-  "name": "Citations",
-  "short_name": "Citations",
+  "name": "Inspira",
+  "short_name": "Inspira",
   "start_url": "/",
+  "description": "Voici la meilleure application de citation que tu verras aujourd'hui, n'hesite pas l'installer pour ne rien rater de ta vie",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

@@ -8,24 +8,39 @@ async function fetchCitations() {
         quotesContainer.innerHTML = ''; // Réinitialiser le contenu
 
         quotes.forEach((quote) => {
-            const quoteCard = `
-                <div class="col-md-4">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <blockquote class="blockquote mb-0">
-                                <p>${quote.text}</p>
-                                <footer class="blockquote-footer">${quote.author}</footer>
-                            </blockquote>
-                        </div>
-                    </div>
-                </div>
-            `;
-            quotesContainer.innerHTML += quoteCard;
+            const quoteCard = document.createElement('div');
+            quoteCard.classList.add('col-md-4');
+
+            const card = document.createElement('div');
+            card.classList.add('card', 'shadow-sm');
+
+            const cardBody = document.createElement('div');
+            cardBody.classList.add('card-body');
+
+            const blockquote = document.createElement('blockquote');
+            blockquote.classList.add('blockquote', 'mb-0');
+
+            const quoteText = document.createElement('p');
+            quoteText.textContent = quote.text; // Utilisation de textContent pour éviter XSS
+
+            const footer = document.createElement('footer');
+            footer.classList.add('blockquote-footer');
+            footer.textContent = quote.author; // Utilisation de textContent pour éviter XSS
+
+            blockquote.appendChild(quoteText);
+            blockquote.appendChild(footer);
+
+            cardBody.appendChild(blockquote);
+            card.appendChild(cardBody);
+            quoteCard.appendChild(card);
+
+            quotesContainer.appendChild(quoteCard);
         });
     } catch (error) {
         console.error('Erreur lors de la récupération des citations:', error);
     }
 }
+
 
 // Charger les citations dès que la page est prête
 document.addEventListener('DOMContentLoaded', fetchCitations);
@@ -50,7 +65,6 @@ document.getElementById('addQuoteForm').addEventListener('submit', async (event)
         });
 
         const result = await response.json();
-        alert(result.message);
 
         // Rafraîchir la liste des citations si l'ajout a réussi
         if (result.success) {
