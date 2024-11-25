@@ -1,5 +1,5 @@
 const dbName = 'CitationsDB';
-const dbVersion = 1;
+const dbVersion = 2;
 
 const openDB = async () => {
     return new Promise((resolve, reject) => {
@@ -8,15 +8,10 @@ const openDB = async () => {
         request.onupgradeneeded = (event) => {
             const db = event.target.result;
 
-            if (!db.objectStoreNames.contains('authors')) {
-                const authorStore = db.createObjectStore('authors', { keyPath: 'id', autoIncrement: true });
-                authorStore.createIndex('name', 'name', { unique: false });
-            }
-
             if (!db.objectStoreNames.contains('quotes')) {
                 const quoteStore = db.createObjectStore('quotes', { keyPath: 'id', autoIncrement: true });
                 quoteStore.createIndex('texte', 'texte', {unique: false});
-                quoteStore.createIndex('author_id', 'author_id', { unique: false });
+                quoteStore.createIndex('author', 'author', { unique: false });
             }
         };
 
@@ -25,46 +20,66 @@ const openDB = async () => {
         };
 
         request.onerror = (event) => {
-            reject(event.target.error);
+            console.error("Erreur lors de l'ouverture de la base de données");
         };
     });
 };
 
-const addAuthor = async (db, nom) => {
-    return new Promise((resolve, reject) => {
-        const transaction = db.transaction(["authors"], 'readwrite');
-        const authorStore = transaction.objectStore('authors');
-        const ajoutRequete = authorStore.add({name: {nom}});
-
-        ajoutRequete.onsuccess = () => {
-            resolve("Auteur : " + nom + "ajouter.");
-        }
-
-        ajoutRequete.onerror = () => {
-            reject("Auteur non ajouté");
-        }
-    })
-}
-
-const addQuote = async (db, texte, author_id) => {
+const addQuote = async (db, texte, author) => {
     return new Promise((resolve, reject) => {
         const transaction = db.transaction(["quotes"], 'readwrite');
         const quotesStore = transaction.objectStore('quotes');
-        const ajoutRequete = quotesStore.add({texte: {texte}, author_id: {author_id}});
+        const ajoutRequete = quotesStore.add({"texte": texte, "author": author});
 
         ajoutRequete.onsuccess = () => {
-            resolve("Citation : " + texte + "de" + author_id +"ajouter.");
-        }
+            resolve("Citation : " + texte + " de " + author +" ajouté.");
+        };
 
         ajoutRequete.onerror = () => {
             reject("Citation non ajouté");
-        }
-    })
-}
+        };
+    });
+};
+
+const readQuote = async (db, id) => {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(['quotes'], 'readonly');
+        const objectStore = transaction.objectStore('quotes');
+        const lectureRequete = objectStore.get(id);
+
+        lectureRequete.onsuccess = () => {
+            const resultat = lectureRequete.result;
+            resolve(resultat);
+        };
+
+        lectureRequete.onerror = () => {
+            reject("Erreur lors de la lecture");
+        };
+    });
+};
+
+const readAllQuotes = async (db) => {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(['quotes'], 'readonly');
+        const objectStore = transaction.objectStore('quotes');
+        
+        const request = objectStore.getAll(); // Récupérer toutes les entrées
+
+        request.onsuccess = (event) => {
+            const quotes = event.target.result; // Le tableau des citations
+            resolve(quotes);
+        };
+
+        request.onerror = (event) => {
+            reject("Erreur lors de la lecture de toutes les citations.");
+        };
+    });
+};
 
 const initApp = async () => {
     try {
         const db = await openDB();
+        return db;
     } catch (error) {
         console.error('Erreur lors de l\'ouverture de la base de données:', error);
     }
