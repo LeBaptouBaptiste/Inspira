@@ -76,6 +76,23 @@ const readAllQuotes = async (db) => {
     });
 };
 
+const clearAllQuotes = async (db) => {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(['quotes'], 'readwrite');
+        const objectStore = transaction.objectStore('quotes');
+
+        const request = objectStore.clear();  // Supprime toutes les entrées
+
+        request.onsuccess = () => {
+            resolve("Toutes les citations ont été supprimées.");
+        };
+
+        request.onerror = () => {
+            reject("Erreur lors de la suppression des citations.");
+        };
+    });
+};
+
 const initApp = async () => {
     try {
         const db = await openDB();
