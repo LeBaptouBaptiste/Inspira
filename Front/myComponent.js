@@ -29,7 +29,6 @@ class GreenHoverButton extends Button {
         style.textContent = 'button.monCss{background-color: white; color: black; border: 2px solid #04AA6D;} button.monCss:hover{background-color: #04AA6D; color: white;}';
 
         this.shadowRoot.appendChild(style);
-        this.shadowRoot.appendChild(element);
     }
 }
 customElements.define('button-green', GreenHoverButton);
@@ -43,7 +42,6 @@ class RedHoverButton extends Button {
         style.textContent = 'button.monCss{background-color: white; color: black; border: 2px solid #AA0404;} button.monCss:hover{background-color: #AA0404; color: white;}';
 
         this.shadowRoot.appendChild(style);
-        this.shadowRoot.appendChild(element);
     }
 }
 customElements.define('button-red', RedHoverButton);
@@ -57,7 +55,6 @@ class BlueHoverButton extends Button {
         style.textContent = 'button.monCss{background-color: white; color: black; border: 2px solid #6D04AA;} button.monCss:hover{background-color: #6D04AA; color: white;}';
 
         this.shadowRoot.appendChild(style);
-        this.shadowRoot.appendChild(element);
     }
 }
 customElements.define('button-blue', BlueHoverButton);

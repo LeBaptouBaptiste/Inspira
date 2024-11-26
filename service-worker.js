@@ -1,12 +1,12 @@
-const CACHE_NAME = 'citations-cache-v1';
+const CACHE_NAME = 'citations-cache-v';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/main.js',
-  '/api.php',
+  '/Front/main.js',
+  '/Back/api.php',
   '/site.webmanifest',
-  '/web-app-manifest-192x192.png',
-  '/web-app-manifest-512x512.png',
+  '/img/web-app-manifest-192x192.png',
+  '/img/web-app-manifest-512x512.png',
   'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css',
   'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js',
 ];

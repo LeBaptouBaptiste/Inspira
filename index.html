@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inspira</title>
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="/img/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Citations" />
     <link rel="manifest" href="/site.webmanifest" />
 
@@ -37,8 +37,8 @@
                     <textarea id="quoteText" class="form-control" rows="3" required placeholder="Entrez votre citation ici"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="authorId" class="form-label">Auteur (ID)</label>
-                    <input type="number" id="authorId" class="form-control" required placeholder="ID de l'auteur">
+                    <label for="authorId" class="form-label">Auteur</label>
+                    <input id="authorName" class="form-control" required placeholder="Nom de l'auteur">
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Ajouter la citation</button>
             </form>
@@ -49,7 +49,7 @@
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker
-                    .register('/service-worker.js')
+                    .register('service-worker.js')
                     .then((registration) => {
                         console.log('Service Worker enregistré avec succès:', registration.scope);
                     })
@@ -65,9 +65,9 @@
 
     <!-- Scripts Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="main.js"></script>
-    <script src="IndexDB.js"></script>
-    <script src="myComponent.js"></script>
+    <script src="Front/main.js"></script>
+    <script src="Front/IndexDB.js"></script>
+    <script src="Front/myComponent.js"></script>
 </body>
 
 </html>

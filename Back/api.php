@@ -1,6 +1,6 @@
 <?php
 // Connexion à SQLite
-$db = new PDO('sqlite:Database/citations.db');
+$db = new PDO('sqlite:citations.db');
 
 // Configuration des en-têtes CORS
 header("Access-Control-Allow-Origin: *");
@@ -16,15 +16,14 @@ function escape_html($string) {
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Gérer une requête GET : récupérer les citations
     $query = $db->query("
-        SELECT quotes.text, authors.name AS author 
-        FROM quotes 
-        INNER JOIN authors ON quotes.author_id = authors.id
+        SELECT quotes.quote, quotes.author
+        FROM quotes;
     ");
     $quotes = $query->fetchAll(PDO::FETCH_ASSOC);
 
     // Échapper les données avant de les renvoyer au client (pour éviter XSS)
     foreach ($quotes as &$quote) {
-        $quote['text'] = escape_html($quote['text']);
+        $quote['quote'] = escape_html($quote['quote']);
         $quote['author'] = escape_html($quote['author']);
     }
     
@@ -35,15 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Gérer une requête POST : ajouter une citation
     $input = json_decode(file_get_contents('php://input'), true);
 
-    if (isset($input['text'], $input['author_id'])) {
+    if (isset($input['quote'], $input['author'])) {
         // Nettoyer et échapper les données entrantes avant d'insérer
-        $text = htmlspecialchars($input['text'], ENT_NOQUOTES, 'UTF-8');
-        $author_id = $input['author_id'];
+        $quote = htmlspecialchars($input['quote'], ENT_NOQUOTES, 'UTF-8');
+        $author = htmlspecialchars($input['author'], ENT_NOQUOTES, 'UTF-8');
 
         // Préparer l'insertion dans la base de données
-        $stmt = $db->prepare("INSERT INTO quotes (text, author_id) VALUES (:text, :author_id)");
-        $stmt->bindParam(':text', $text);
-        $stmt->bindParam(':author_id', $author_id);
+        $stmt = $db->prepare("INSERT INTO quotes (quote, author) VALUES (:quote, :author)");
+        $stmt->bindParam(':quote', $quote);
+        $stmt->bindParam(':author', $author);
 
         if ($stmt->execute()) {
             echo json_encode(["success" => true, "message" => "Citation ajoutée avec succès!"]);

@@ -1,7 +1,7 @@
 // Fonction pour récupérer les citations depuis l'API
 async function fetchCitations() {
     try {
-        const response = await fetch('api.php'); // URL de votre API
+        const response = await fetch('../Back/api.php'); // URL de votre API
         const quotes = await response.json();
         const db = await initApp();
 
@@ -25,7 +25,7 @@ async function fetchCitations() {
             blockquote.classList.add('blockquote', 'mb-0');
 
             const quoteText = document.createElement('p');
-            quoteText.textContent = quote.text; // Utilisation de textContent pour éviter XSS
+            quoteText.textContent = quote.quote; // Utilisation de textContent pour éviter XSS
 
             const footer = document.createElement('footer');
             footer.classList.add('blockquote-footer');
@@ -98,18 +98,18 @@ document.addEventListener('DOMContentLoaded', fetchCitations);
 document.getElementById('addQuoteForm').addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const text = document.getElementById('quoteText').value;
-    const authorId = document.getElementById('authorId').value;
+    const quote = document.getElementById('quoteText').value;
+    const author = document.getElementById('authorName').value;
 
     try {
-        const response = await fetch('api.php', {
+        const response = await fetch('../Back/api.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                text: text,
-                author_id: parseInt(authorId),
+                quote: quote,
+                author: author,
             }),
         });
 
