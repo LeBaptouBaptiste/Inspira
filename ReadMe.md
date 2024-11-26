@@ -26,7 +26,7 @@
 
 1. Clonez le dépôt GitHub sur votre machine locale :
    ```bash
-   git clone https://github.com/<votre-repository>/Inspira.git
+   git clone https://github.com/LeBaptouBaptiste/Inspira.git
    ```
 
 2. Placez-vous dans le dossier principal :
